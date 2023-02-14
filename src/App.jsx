@@ -8,8 +8,8 @@ import './App.css'
 function App() {
   const [selectedUser, setSelectedUser] = useState('')
   const [pageNumber, setPageNumber] = useState(0);
- 
-  const { data: users, isLoading } = useQuery({
+
+  const { data: users, isLoading, isError, error, status, fetchStatus, } = useQuery({
     queryKey: ['users'],
     queryFn: async () => {
       const res = await fetch('https://602e7c2c4410730017c50b9d.mockapi.io/users')
@@ -20,53 +20,60 @@ function App() {
 
 
   if (isLoading) {
-  return  <div className="h-[700px] flex justify-center items-center">
-  <HashLoader color="#367fd6" />
-</div>
-}
-
-  const usersPerPage = 5;
+    return <div className="h-[700px] flex justify-center items-center">
+      <HashLoader color="#367fd6" />
+    </div>
+  }
+  if (users === "Not found") {
+    return <p className="text-3xl text-center m-20 font-semibold ">No data to show</p>
+  }
+  const usersPerPage = 7;
   const pagesVisited = pageNumber * usersPerPage;
 
 
   const pageCount = Math.ceil(users?.length / usersPerPage);
 
   const changePage = ({ selected }) => {
+   
     setPageNumber(selected);
   };
 
+console.log(usersPerPage)
 
-console.log(users)
+  
+  // 
+ 
+
   return (
     <div className="max-w-[1200px] mx-auto grid px-20 grid-cols-1  md:grid-cols-2 pt-20 gap-20">
       <div>
         <h1 className="text-xl text-center rounded-t bg-[#C5DFFF] w-full py-4">USERS LIST</h1>
 
-        
-              <div>
-                {
-                  users?.slice(pagesVisited, pagesVisited + usersPerPage).map(user => <UserCard
-                    key={user.id}
-                    user={user}
-                    setSelectedUser={setSelectedUser}
-                  />)
-                }
 
-              </div>
-              <div>
-                <ReactPaginate
-                  previousLabel={"Previous"}
-                  nextLabel={"Next"}
-                  pageCount={pageCount}
-                  onPageChange={changePage}
-                  containerClassName={"paginationBttns"}
-                  previousLinkClassName={"previousBttn"}
-                  nextLinkClassName={"nextBttn"}
-                  disabledClassName={"paginationDisabled"}
-                  activeClassName={"paginationActive"}
-                />
-              </div>
-           
+        <div>
+          {
+            users?.slice(pagesVisited, pagesVisited + usersPerPage)?.map(user => <UserCard
+              key={user.id}
+              user={user}
+              setSelectedUser={setSelectedUser}
+            />)
+          }
+
+        </div>
+        <div>
+          <ReactPaginate
+            previousLabel={"Previous"}
+            nextLabel={"Next"}
+            pageCount={pageCount}
+            onPageChange={changePage}
+            containerClassName={"paginationBttns"}
+            previousLinkClassName={"previousBttn"}
+            nextLinkClassName={"nextBttn"}
+            disabledClassName={"paginationDisabled"}
+            activeClassName={"paginationActive"}
+          />
+        </div>
+
       </div>
       <div>
         <h1 className="text-xl text-center  rounded-t bg-[#C5DFFF] w-full py-4">USER DETAILS</h1>
