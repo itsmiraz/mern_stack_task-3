@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 import { useState } from "react"
 import ReactPaginate from "react-paginate"
-import { ClimbingBoxLoader, HashLoader } from "react-spinners"
+import {  HashLoader } from "react-spinners"
 import UserCard from "./Components/UserCard/UserCard"
 import './App.css'
 
@@ -31,6 +31,7 @@ function App() {
   if (users === "Not found") {
     return <p className="text-3xl text-center m-20 font-semibold ">No data to show</p>
   }
+  
   const usersPerPage = 7;
   const pagesVisited = pageNumber * usersPerPage;
 
@@ -48,9 +49,7 @@ function App() {
   return (
     <div className="max-w-[1200px] mx-auto grid px-20 grid-cols-1  md:grid-cols-2 pt-20 gap-20">
       <div>
-        <h1 className="text-xl text-center rounded-t bg-[#C5DFFF] w-full py-4">USERS LIST</h1>
-
-
+        <h1 className="text-xl text-center text-white rounded-t bg-[#2b99ff] w-full py-4">USERS LIST</h1>
         <div>
           {
             users?.slice(pagesVisited, pagesVisited + usersPerPage)?.map(user => <UserCard
@@ -77,12 +76,12 @@ function App() {
 
       </div>
       <div>
-        <h1 className="text-xl text-center  rounded-t bg-[#C5DFFF] w-full py-4">USER DETAILS</h1>
+        <h1 className="text-xl text-center text-white rounded-t bg-[#2b99ff] w-full py-4">USER DETAILS</h1>
 
         {
           selectedUser ?
             <div className="flex flex-col gap-y-2 font-semibold  justify-center">
-              <img className="w-40 mx-auto" src={selectedUser.avater ? selectedUser.avater : 'https://cdn.vectorstock.com/i/preview-1x/53/42/user-member-avatar-face-profile-icon-vector-22965342.jpg' } alt="" />
+              <img className="w-40 mx-auto" src={'https://cdn.vectorstock.com/i/preview-1x/53/42/user-member-avatar-face-profile-icon-vector-22965342.jpg' } alt="" />
               <p className="text-center font-semibold text-2xl">@{selectedUser.profile.username}</p>
               <p className="p-2 bg-[#DBDBDB] font-semibold">{selectedUser.Bio}</p>
               <p>Full Name</p>
