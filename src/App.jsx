@@ -8,7 +8,7 @@ import './App.css'
 function App() {
   const [selectedUser, setSelectedUser] = useState('')
   const [pageNumber, setPageNumber] = useState(0);
-
+ 
   const { data: users, isLoading } = useQuery({
     queryKey: ['users'],
     queryFn: async () => {
@@ -18,7 +18,14 @@ function App() {
     }
   })
 
-  const usersPerPage = 7;
+
+  if (isLoading) {
+  return  <div className="h-[700px] flex justify-center items-center">
+  <HashLoader color="#367fd6" />
+</div>
+}
+
+  const usersPerPage = 5;
   const pagesVisited = pageNumber * usersPerPage;
 
 
@@ -35,13 +42,7 @@ console.log(users)
       <div>
         <h1 className="text-xl text-center rounded-t bg-[#C5DFFF] w-full py-4">USERS LIST</h1>
 
-        {
-          isLoading ?
-            <div className="h-[200px] flex justify-center items-center">
-              <HashLoader color="#367fd6" />
-            </div>
-            :
-            <>
+        
               <div>
                 {
                   users?.slice(pagesVisited, pagesVisited + usersPerPage).map(user => <UserCard
@@ -65,8 +66,7 @@ console.log(users)
                   activeClassName={"paginationActive"}
                 />
               </div>
-            </>
-        }
+           
       </div>
       <div>
         <h1 className="text-xl text-center  rounded-t bg-[#C5DFFF] w-full py-4">USER DETAILS</h1>

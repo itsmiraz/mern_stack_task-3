@@ -4,11 +4,7 @@ const UserCard = ({ user,setSelectedUser }) => {
 
 
     const {
-        Bio,
-        avatar,
-        createdAt,
-        id,
-        jobTitle,
+       
         profile
     } = user
    console.log(user)
