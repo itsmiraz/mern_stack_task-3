@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 import { useState } from "react"
 import ReactPaginate from "react-paginate"
-import { HashLoader } from "react-spinners"
+import { ClimbingBoxLoader, HashLoader } from "react-spinners"
 import UserCard from "./Components/UserCard/UserCard"
 import './App.css'
 
@@ -9,7 +9,7 @@ function App() {
   const [selectedUser, setSelectedUser] = useState('')
   const [pageNumber, setPageNumber] = useState(0);
 
-  const { data: users, isLoading, isError, error, status, fetchStatus, } = useQuery({
+  const { data: users, isLoading,error} = useQuery({
     queryKey: ['users'],
     queryFn: async () => {
       const res = await fetch('https://602e7c2c4410730017c50b9d.mockapi.io/users')
@@ -23,6 +23,10 @@ function App() {
     return <div className="h-[700px] flex justify-center items-center">
       <HashLoader color="#367fd6" />
     </div>
+  }
+  if (error) {
+    return <p className="text-3xl text-center m-20 font-semibold ">No data to show</p>
+    
   }
   if (users === "Not found") {
     return <p className="text-3xl text-center m-20 font-semibold ">No data to show</p>
@@ -38,11 +42,8 @@ function App() {
     setPageNumber(selected);
   };
 
-console.log(usersPerPage)
 
-  
-  // 
- 
+ console.log(selectedUser)
 
   return (
     <div className="max-w-[1200px] mx-auto grid px-20 grid-cols-1  md:grid-cols-2 pt-20 gap-20">
@@ -81,7 +82,7 @@ console.log(usersPerPage)
         {
           selectedUser ?
             <div className="flex flex-col gap-y-2 font-semibold  justify-center">
-              <img className="w-40 mx-auto" src='https://cdn.vectorstock.com/i/preview-1x/53/42/user-member-avatar-face-profile-icon-vector-22965342.jpg' alt="" />
+              <img className="w-40 mx-auto" src={selectedUser.avater ? selectedUser.avater : 'https://cdn.vectorstock.com/i/preview-1x/53/42/user-member-avatar-face-profile-icon-vector-22965342.jpg' } alt="" />
               <p className="text-center font-semibold text-2xl">@{selectedUser.profile.username}</p>
               <p className="p-2 bg-[#DBDBDB] font-semibold">{selectedUser.Bio}</p>
               <p>Full Name</p>
